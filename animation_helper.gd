@@ -22,7 +22,9 @@ var def_sine_offset : float
 ## Makes the final value from sine methods larger.
 var def_sine_multiplier : float
 # --------------------------------
-
+# MISC
+static var orth_rotations : Array[float] = [0, 90, 180, 270]
+# --------------------------------
 #region CLASS/BUILT INS
 # using this instead of _init for more customizability
 ## Returns a configurable AnimationHelper
@@ -70,4 +72,24 @@ func tween_shader_parameter(which : StringName, to : Variant) -> void:
 ## Wrapper for sin method to make it a little easier to customize.
 static func get_sine(time : float, speed : float = 1, offset : float = 0, multiplier : float = 1) -> float:
 	return sin(time * speed) * multiplier + offset
+
+## NOTE: Use rotation_degrees property of 2D nodes and not rotation
+static func rotation_dir_to_orthogonal_dir(rotation : float) -> Vector2i:
+	var result : Vector2i
+	var snapped_rot : int = snappedi(rotation, 90)
+	var final_rot : int
+	if snapped_rot < 360 and snapped_rot >= 0:
+		final_rot = snapped_rot
+	else:
+		final_rot = snapped_rot - floor(snapped_rot / 360.0) * 360.0
+	match final_rot:
+		0:
+			result = Vector2i.RIGHT
+		90:
+			result = Vector2i.DOWN
+		180:
+			result = Vector2i.LEFT
+		270:
+			result = Vector2i.UP
+	return result
 #endregion
