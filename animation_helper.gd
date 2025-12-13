@@ -1,3 +1,4 @@
+## A collection of various animation methods that use tweens and sine for different effects.
 class_name AnimationHelper extends RefCounted
  
 #region VARIABLES
@@ -86,7 +87,7 @@ static func rotation_dir_to_orthogonal_dir(rotation : float) -> Vector2i:
 	if snapped_rot < 360 and snapped_rot >= 0:
 		final_rot = snapped_rot
 	else:
-		final_rot = snapped_rot - floor(snapped_rot / 360.0) * 360.0
+		final_rot = round(snapped_rot - floorf(snapped_rot / 360.0) * 360.0)
 	match final_rot:
 		0:
 			result = Vector2i.RIGHT
