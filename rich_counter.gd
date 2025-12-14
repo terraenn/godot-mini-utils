@@ -5,7 +5,6 @@ class_name RichTextCounter extends RichTextLabel
 
 #region VARIABLES & SIGNALS
 # EXPORTS ---------
-## How many decimals should be displayed max.
 ## The current, actual, amount.
 @export var amount : float:
 	set(value):
@@ -16,7 +15,8 @@ class_name RichTextCounter extends RichTextLabel
 			set_amount_animated(value, old_value)
 		else:
 			displayed_amount = value
-@export_enum("0 (display as int)", "1", "2", "3", "Infinite") var max_decimals : int = 1:
+## How many decimals should be displayed max.
+@export_enum("0 (display as int)", "1", "2", "3", "Infinite") var max_decimals : int = 0:
 	set(value):
 		max_decimals = value
 		displayed_amount = displayed_amount # update display 
