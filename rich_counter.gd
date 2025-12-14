@@ -1,7 +1,7 @@
 @tool
-## A [Label] that is meant to only store a number.
-## [br]To use, set the [member amount] property instead of [member Label.text].
-class_name Counter extends Label
+## A version of [Counter] that extends [RichTextLabel] instead of [Label]
+## which allows using BBcode.
+class_name RichTextCounter extends RichTextLabel
 
 #region VARIABLES & SIGNALS
 # EXPORTS ---------
@@ -45,6 +45,11 @@ class_name Counter extends Label
 	set(value):
 		suffix = value
 		update_text()
+## The BBcode applied to the [member displayed_amount], not including the [member prefix] and the [member suffix].
+## [br] For example, if the value is [code]["b", "wave"][/code],
+## then the text will be [code]"prefix[b][wave]amount[/b][/wave]suffix"[/code]
+##[br][b]Note:[/b] [member RichTextLabel.bbcode_enabled] has to be set to true.
+@export var amount_bbcode : Array[String]
 ## Whether anything should be displayed when amount is 0.
 @export var hide_on_zero : bool = false:
 	set(value):
@@ -60,11 +65,23 @@ var displayed_amount : Variant:
 			text = ""
 			return
 		text =\
-		prefix + str(displayed_amount) + suffix
+		prefix + bbcode_start + str(displayed_amount) + bbcode_end + suffix
 ## Used to reset animation when amount is changed again
 var tween : Tween
 ## Used for rounding.
-var snap_step : float = pow(0.1, max_decimals) 
+var snap_step : float = pow(0.1, max_decimals)
+var bbcode_start : String:
+	get:
+		var result : String = ""
+		for i in amount_bbcode:
+			result += "[%s]" % i
+		return result
+var bbcode_end : String:
+	get:
+		var result : String = ""
+		for i in amount_bbcode:
+			result += "[/%s]" % i
+		return result
 # SIGNALS ---------
 ## Emitted when the counting animation is triggered, i.e. when [method set_amount_animated] is called.
 signal animation_triggered
