@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://0c5r7m8x8r56"]
+
+[ext_resource type="Script" uid="uid://b7250bo2yvpdn" path="res://scripts/quick_settings/scripts/settings_slider_ui.gd" id="1_8e770"]
+[ext_resource type="LabelSettings" uid="uid://bexoaghrdnm2c" path="res://scripts/quick_settings/resources/settings_label_settings.tres" id="1_w26p6"]
+[ext_resource type="Script" uid="uid://c6g1ye3g1m6cy" path="res://scripts/counter.gd" id="2_27lqm"]
+
+[node name="SettingsSliderUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -996.0
+offset_bottom = -605.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8e770")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="Volume" type="HBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 3.8
+
+[node name="Counter" type="Label" parent="Panel/MarginContainer/Volume"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "50% Volume"
+label_settings = ExtResource("1_w26p6")
+script = ExtResource("2_27lqm")
+amount = 50.0
+suffix = "% Volume"
+metadata/_custom_type_script = "uid://c6g1ye3g1m6cy"
+
+[node name="Slider" type="HSlider" parent="Panel/MarginContainer/Volume"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.5
+value = 50.0

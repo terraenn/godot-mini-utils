@@ -1,0 +1,108 @@
+[gd_scene load_steps=7 format=3 uid="uid://r6f57d0thjl5"]
+
+[ext_resource type="Script" uid="uid://n2i7yh15iul6" path="res://scripts/quick_settings/scripts/quick_settings.gd" id="1_qoprd"]
+[ext_resource type="LabelSettings" uid="uid://jkgp66ktrxng" path="res://scripts/quick_settings/resources/title_label_settings.tres" id="2_fig0c"]
+[ext_resource type="Shader" uid="uid://uq6kcgidyk1m" path="res://scripts/quick_settings/resources/blur.gdshader" id="2_pf34d"]
+[ext_resource type="PackedScene" uid="uid://0c5r7m8x8r56" path="res://scripts/quick_settings/scenes/settings_slider_ui.tscn" id="3_6bumf"]
+[ext_resource type="PackedScene" uid="uid://d0wehm1ggnnjn" path="res://scripts/quick_settings/scenes/settings_checkbox_ui.tscn" id="5_pf34d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lyeip"]
+shader = ExtResource("2_pf34d")
+shader_parameter/lod = 0.0
+
+[node name="SettingsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qoprd")
+
+[node name="Blur" type="ColorRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_lyeip")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OuterPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3394097
+anchor_top = 0.31790122
+anchor_right = 0.6605903
+anchor_bottom = 0.6820988
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="OuterPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="InnerPanel" type="Panel" parent="OuterPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OuterPanel/MarginContainer/InnerPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleMargin" type="MarginContainer" parent="OuterPanel/MarginContainer/InnerPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 3
+
+[node name="Title" type="Label" parent="OuterPanel/MarginContainer/InnerPanel/VBoxContainer/TitleMargin"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Settings"
+label_settings = ExtResource("2_fig0c")
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="OuterPanel/MarginContainer/InnerPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.97
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 5
+
+[node name="SettingScenes" type="VBoxContainer" parent="OuterPanel/MarginContainer/InnerPanel/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="Volume" parent="OuterPanel/MarginContainer/InnerPanel/VBoxContainer/MarginContainer/SettingScenes" instance=ExtResource("3_6bumf")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Screenshake" parent="OuterPanel/MarginContainer/InnerPanel/VBoxContainer/MarginContainer/SettingScenes" instance=ExtResource("5_pf34d")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[editable path="OuterPanel/MarginContainer/InnerPanel/VBoxContainer/MarginContainer/SettingScenes/Volume"]
+[editable path="OuterPanel/MarginContainer/InnerPanel/VBoxContainer/MarginContainer/SettingScenes/Screenshake"]
