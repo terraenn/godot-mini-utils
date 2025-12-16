@@ -1,6 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0wehm1ggnnjn"]
-
-[ext_resource type="LabelSettings" uid="uid://bexoaghrdnm2c" path="res://scripts/quick_settings/resources/settings_label_settings.tres" id="1_e8jgj"]
+[gd_scene load_steps=2 format=3 uid="uid://d0wehm1ggnnjn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdmut"]
 bg_color = Color(1, 1, 1, 0.4392157)
@@ -41,11 +39,14 @@ theme_override_constants/margin_right = 5
 layout_mode = 2
 size_flags_stretch_ratio = 3.8
 
-[node name="Label" type="Label" parent="Panel/MarginContainer/Volume"]
+[node name="Label" type="RichTextLabel" parent="Panel/MarginContainer/Volume"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Screenshake"
-label_settings = ExtResource("1_e8jgj")
+bbcode_enabled = true
+text = "Screen[shake]shake"
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/Volume"]
 layout_mode = 2
