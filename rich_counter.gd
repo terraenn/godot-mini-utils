@@ -11,7 +11,7 @@ var amount : Variant:
 		var old_value : Variant = amount
 		amount = value
 		# set displayed amount
-		if animate_change and absf(value - old_value) > animation_threshold:
+		if animate and absf(value - old_value) > animation_threshold:
 			set_amount_animated(value, old_value)
 		else:
 			displayed_amount = value
@@ -20,9 +20,9 @@ var amount : Variant:
 	set(value):
 		max_decimals = value
 		displayed_amount = displayed_amount # update display 
+@export_group("Animation")
 ## Whether there should be a counting up/down animation on counter amount change above [member animation_threshold].
-@export var animate_change : bool = false
-@export_group("Animation", "animation")
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var animate : bool = false
 ## How much should the [member amount] increase/decrease by to trigger an animation.
 @export var animation_threshold : int = 1
 ## The ease the animation uses.
@@ -35,6 +35,7 @@ var amount : Variant:
 @export_range(0.0, 1.0, 0.05, "or_greater") var animation_min_duration : float = 0.2
 ## Used in the formula for the duration of the animation.
 @export_range(0.5, 2.0, 0.05, "or_greater", "or_less") var animation_max_duration : float = 2.0
+@export_group("", "")
 ## Displayed before [member displayed_amount]
 @export var prefix : String:
 	set(value):
@@ -90,7 +91,7 @@ signal animation_ended
 # -----------------
 #endregion
 
-#region BUILT-IN
+##region BUILT-IN
 func _get_property_list() -> Array[Dictionary]:
 	var result : Array[Dictionary]
 	result.append(
@@ -98,7 +99,6 @@ func _get_property_list() -> Array[Dictionary]:
 			"name": "amount",
 			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_NONE,
-			#"hint_string": "ZERO,ONE,TWO,THREE,FOUR,FIVE",
 		}
 	)
 	return result
@@ -107,11 +107,11 @@ func _get_property_list() -> Array[Dictionary]:
 #region CLASS
 ## Set the amount without an animation.
 func set_amount_directly(value : float) -> void:
-	var toggle_animate_change := animate_change
-	animate_change = false
+	var toggle_animate := animate
+	animate = false
 	amount = value
-	if toggle_animate_change:
-		animate_change = true
+	if toggle_animate:
+		animate = true
   
 # Using a method instead of a setter because setters can't be overwritten by subclasses
 # This way subclasses can change the tweening logic if need be
