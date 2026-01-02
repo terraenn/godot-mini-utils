@@ -20,7 +20,7 @@ var amount : Variant:
 @export_enum("0 (display as int)", "1", "2", "3", "Infinite") var max_decimals : int = 0:
 	set(value):
 		max_decimals = value
-		displayed_amount = displayed_amount # update display 
+		update_text()
 ## Displayed before [member displayed_amount]
 @export var prefix : String:
 	set(value):
@@ -62,7 +62,8 @@ var amount : Variant:
 var displayed_amount : Variant:
 	set(value):
 		@warning_ignore("incompatible_ternary") # intentional
-		displayed_amount = roundi(value) if max_decimals == 0 or is_equal_approx(value, 0) else snapped(value, pow(0.1, max_decimals))
+		
+		displayed_amount = roundi(value if value else 0) if max_decimals == 0 or is_equal_approx(value, 0) else snapped(value, pow(0.1, max_decimals))
 		if hide_on_zero and is_equal_approx(floorf(displayed_amount), 0):
 			text = ""
 			return
