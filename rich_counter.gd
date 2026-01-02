@@ -6,7 +6,7 @@ class_name RichTextCounter extends RichTextLabel
 #region VARIABLES & SIGNALS
 # EXPORTS ---------
 ## The current, actual, amount.
-@export var amount : Variant:
+var amount : Variant:
 	set(value):
 		var old_value : Variant = amount
 		amount = value
@@ -88,6 +88,20 @@ signal animation_triggered
 ## Emitted when the counting animation is finished, i.e. at the end of [method set_amount_animated].
 signal animation_ended
 # -----------------
+#endregion
+
+#region BUILT-IN
+func _get_property_list() -> Array[Dictionary]:
+	var result : Array[Dictionary]
+	result.append(
+		{
+			"name": "amount",
+			"type": TYPE_FLOAT,
+			"hint": PROPERTY_HINT_NONE,
+			#"hint_string": "ZERO,ONE,TWO,THREE,FOUR,FIVE",
+		}
+	)
+	return result
 #endregion
 
 #region CLASS
