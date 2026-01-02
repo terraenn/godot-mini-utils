@@ -16,26 +16,11 @@ var amount : Variant:
 		else:
 			displayed_amount = value
 ## How many decimals should be displayed max.
+@export_group("Style")
 @export_enum("0 (display as int)", "1", "2", "3", "Infinite") var max_decimals : int = 0:
 	set(value):
 		max_decimals = value
 		displayed_amount = displayed_amount # update display 
-@export_group("Animation")
-## Whether there should be a counting up/down animation on counter amount change above [member animation_threshold].
-@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var animate : bool = false
-## How much should the [member amount] increase/decrease by to trigger an animation.
-@export var animation_threshold : int = 1
-## The ease the animation uses.
-@export var animation_ease : Tween.EaseType = Tween.EaseType.EASE_IN
-## The transition type the animation uses.
-@export var animation_trans : Tween.TransitionType = Tween.TransitionType.TRANS_LINEAR
-## Used in the formula for the duration of the animation.
-@export var animation_speed_multiplier : float = 0.25
-## Used in the formula for the duration of the animation.
-@export_range(0.0, 1.0, 0.05, "or_greater") var animation_min_duration : float = 0.2
-## Used in the formula for the duration of the animation.
-@export_range(0.5, 2.0, 0.05, "or_greater", "or_less") var animation_max_duration : float = 2.0
-@export_group("", "")
 ## Displayed before [member displayed_amount]
 @export var prefix : String:
 	set(value):
@@ -56,6 +41,22 @@ var amount : Variant:
 	set(value):
 		hide_on_zero = value
 		update_text()
+@export_group("Animation")
+## Whether there should be a counting up/down animation on counter amount change above [member animation_threshold].
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var animate : bool = false
+## How much should the [member amount] increase/decrease by to trigger an animation.
+@export var animation_threshold : int = 1
+## The ease the animation uses.
+@export var animation_ease : Tween.EaseType = Tween.EaseType.EASE_IN
+## The transition type the animation uses.
+@export var animation_trans : Tween.TransitionType = Tween.TransitionType.TRANS_LINEAR
+## Used in the formula for the duration of the animation.
+@export var animation_speed_multiplier : float = 0.25
+## Used in the formula for the duration of the animation.
+@export_range(0.0, 1.0, 0.05, "or_greater") var animation_min_duration : float = 0.2
+## Used in the formula for the duration of the animation.
+@export_range(0.5, 2.0, 0.05, "or_greater", "or_less") var animation_max_duration : float = 2.0
+@export_group("", "")
 # REGULAR ---------
 ## The number that's displayed right now. ([int] or [float])
 var displayed_amount : Variant:
