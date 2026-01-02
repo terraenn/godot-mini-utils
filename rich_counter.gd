@@ -6,9 +6,9 @@ class_name RichTextCounter extends RichTextLabel
 #region VARIABLES & SIGNALS
 # EXPORTS ---------
 ## The current, actual, amount.
-@export var amount : float:
+@export var amount : Variant:
 	set(value):
-		var old_value := amount
+		var old_value : Variant = amount
 		amount = value
 		# set displayed amount
 		if animate_change and absf(value - old_value) > animation_threshold:
@@ -60,7 +60,7 @@ class_name RichTextCounter extends RichTextLabel
 var displayed_amount : Variant:
 	set(value):
 		@warning_ignore("incompatible_ternary") # intentional
-		displayed_amount = roundi(value) if max_decimals == 0 else snappedf(value, pow(0.1, max_decimals))
+		displayed_amount = roundi(value) if max_decimals == 0 or is_equal_approx(value, 0) else snapped(value, pow(0.1, max_decimals))
 		if hide_on_zero and is_equal_approx(floorf(displayed_amount), 0):
 			text = ""
 			return
@@ -103,7 +103,7 @@ func set_amount_directly(value : float) -> void:
 # This way subclasses can change the tweening logic if need be
 # As of Godot 4.5 at least
 ## Tween the displayed amount from an old to a new value.
-func set_amount_animated(value : float, old_value : float) -> void:
+func set_amount_animated(value : Variant, old_value : Variant) -> void:
 	var change : float = abs(old_value - value)
 	animation_triggered.emit()
 	if tween:

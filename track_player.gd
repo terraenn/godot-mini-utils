@@ -9,7 +9,7 @@ class_name TrackPlayer extends AudioStreamPlayer
 @export_range(0, 2, 0.1) var between_track_time : float = 1
 var shuffle_bag : Array[AudioStream] = []
 var last_track : AudioStream
-var target_volume : float = 2
+@export var target_volume : float = 2
 # -------------------------
 
 # VARIABLES (FADE) -------
@@ -44,6 +44,8 @@ func start_playing() -> void:
 	for i in range(9999999):
 		play_random_track()
 		await finished
+		print("finished")
+		await get_tree().create_timer(between_track_time).timeout
 	
 
 func play_random_track() -> void:
@@ -53,17 +55,17 @@ func play_random_track() -> void:
 		#.set_delay(stream.get_length() - fade_length)\
 		#.set_ease(Tween.EASE_IN)
 	stream = get_random_track()
+	volume_linear = target_volume
 	play()
 	if fade_out_track:
 		var tween := create_tween()
 		tween.tween_property(self, "volume_linear", 0, fade_length)\
 		.set_delay(stream.get_length() - fade_length)\
 		.set_ease(Tween.EASE_OUT)
-		tween.tween_callback(set.bind("volume_linear", target_volume)).set_delay(0.1)
+		tween.tween_callback(set.bind("volume_linear", target_volume)).set_delay(fade_length)
 
 func get_random_track() -> AudioStream:
 	var result : AudioStream
-	print(tracks)
 	match randomize_type:
 		RandomizerType.NORMAL:
 			result = tracks.pick_random()
