@@ -1,12 +1,22 @@
 @tool
+## "Pulses" a property of its parent using sine.
+##
+##[br] To use, add as a child of any node and set either [member property] or [member preset].
+## The property functions as a [NodePath] relative to this Pulser's parent and
+## can be anything numeric -  e.g. "scale", "position:x", "modulate".
+## [br][b] [float], [int], [Vector2], [Vector2i] and [Color] is supported.
 class_name Pulser extends Node
 
 #region VARIABLES
+## Used for [method get_sine]
 var time : float = 0
 # EXPORTS
 @export_group("Pulse", "pulse_")
+## Won't pulse if set to false.
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var pulse_ : bool = true
+## Start point for sine. 
 @export var pulse_from : float = 0
+## 
 @export var pulse_to : float = 1
 @export_range(0.1, 5, 0.1, "or_greater", "or_less") var pulse_speed : float = 1
 ## The node path of the pulsed property relative to this Pulser's parent.
@@ -58,17 +68,26 @@ func _validate_property(property_dict: Dictionary) -> void:
 		else:
 			property_dict.usage |= PROPERTY_USAGE_READ_ONLY
 
-#func _get_property_list() -> Array[Dictionary]:
-	#var result : Array[Dictionary]
-	#result.append(
-		#{
-			#"name": "property",
-			#"type": TYPE_NODE_PATH,
-			#"hint": PROPERTY_HINT_NODE_PATH_TO_EDITED_NODE,
-			##"hint_string": "ZERO,ONE,TWO,THREE,FOUR,FIVE",
-		#}
-	#)
-	#return result
+## Set a target that should be pulser around and by how much (variation) it should pulse.
+## [member pulse_from] and [member pulse_to] will be automatically set.
+func set_target(target : float, variation : float) -> void:
+	pulse_from = target - variation
+	pulse_to = target + variation
 
+## Returns current target (which can be set using [method set_target])
+## using [member pulse_from] and [member pulse_to]
+func get_target() -> float:
+	return pulse_from + ((pulse_to - pulse_from) / 2)
+
+## Like [method set_target], but tweens to the target. Not variation though
+func smooth_set_target(target : float, variation : float, length : float = -1,) -> void:
+	var tween := create_tween()
+	tween.tween_method(
+		func(tar : float) -> void:
+			set_target(tar, variation),
+			get_target(), target, length if length != -1 else clampf(absf(target - get_target() * 0.2), 0.3, 2.0)
+	)
+
+## I forgot what this one does. It's some fancy formula I wrote
 func get_sine(from : float, to : float, speed : float = 1) -> float:
 	return sin(time * speed) * (to - from) / 2.0 + (to - (to - from) / 2.0)
